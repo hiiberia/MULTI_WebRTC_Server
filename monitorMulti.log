@@ -1,0 +1,2 @@
+cat: .wrtc_multi_pid: No such file or directory
+./monitorMulti.sh: line 11: log: Permission denied

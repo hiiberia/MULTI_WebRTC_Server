@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HI-Iberia WebRTC-Multi ver0.1</title>
+
+
+<script src="js/adapter.js"></script>
+<script src="js/RecordRTC.js"></script>
+<script src="js/main.js"></script>
+<script src="socket.io/socket.io.js"></script>
+<link rel="stylesheet" href="css/login.css">
+
+<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/ipchmcilleliepkpnpdbohdimgpdglfo"> 
+
+<!--
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+-->
+
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+
+<script>
+
+
+function send(){
+	$('#error').hide();
+	$('#error2').hide();
+	
+	var name = document.getElementById('name').value;
+	var pass = document.getElementById('password').value;
+	var room = document.getElementById('sala').value;
+	var randomnumber = Math.floor(Math.random()*99999999)
+	if(name != "" && room!= ""){
+		//window.location.href="users/6"+randomnumber+"/main?name="+name;
+		window.location.href="webrtc_multi/"+room+"?userid="+name;
+	}else{
+		$('#error').fadeIn(1000);
+	}
+}
+$(document).ready(function() {
+
+    $("#form").submit(function(e){
+	if (document.getElementById('extension-is-installed')) {
+            console.log("Extensión instalada");
+            send();
+        }else{
+            console.log("Extensión no instalada");
+            chrome.webstore.install( "https://chrome.google.com/webstore/detail/ipchmcilleliepkpnpdbohdimgpdglfo",
+            function(e){
+                console.log("Exito al instalar la extensión");
+                console.log(e);
+            },
+            function(e){
+                console.log("Error instalando la extensión")
+                console.log(e);
+            });
+        }
+       
+        return false;
+
+    }); 
+
+
+});
+
+</script>
+</head>
+<body>
+<div class="top"><div class="logos"><!--<img id="logoRTC" src="img/WebRTClogo.png">--><img id="logoHI" src="img/logoHi.png"></div></div>
+
+<div class="up"></div>
+<div class="middle">
+	<div class="loginBox">
+		<form id="form">
+		<div class="textMiddle">
+		<img src="img/hi_mundo.png" style="width:50px;margin-top:10px"><br/><br/>
+		<input id="name" placeholder="Usuario"><br/><br/>
+
+		<input id="password" placeholder="Contraseña" type="password"><br/><br/>
+		
+		<input id="sala" placeholder="Sala"><br/><br/>
+
+		<button id="send" onClick="javascript:send()">Entrar</button>
+		<br/><div id="error" name="error" style="color: gray; text-align:left;padding-left:20px;padding-top:4px;display:none; font-size:10px;">Por favor, rellene los campos.</div>
+		</div>
+		</form>
+	</div>
+</div>
+<div class="down"></div>
+
+</body>
+</html>

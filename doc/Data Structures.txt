@@ -1,0 +1,119 @@
+
+registrar.js:
+-------------
+
+* groups: Registration information for every user, stored by groupid.
+  - key: userid
+  - value: object {
+    - userid
+    - name
+    - state TODO
+    - location TODO
+    - registerTime
+    - etc.
+    }
+
+* registeredUsersSignallingSockets: Information associated for every signalling socket currently 
+established. Object containing signalling sockets for users:
+  - key : groupId
+  - value: dict 
+	  - key: userid
+      - value: socket
+
+
+* signallingSockets: Object containing references to currently open signalling websockets:
+  - key: socketid
+  - value: obj 
+    - groupId: groupId
+    - userId: userId
+
+* sessionStates: Object containing session state for each call in progress.
+    - key: callId
+    - value: {
+      - groupid: group id
+      - callId: call id
+      - transactionId: last transaction id
+      - callParticipants: array of users in call (tipically 2 users).
+      - state: (INITIATING | ESTABLISHED | TERMINATING | TERMINATED)
+    }
+
+
+
+
+main.js:
+--------
+
+* callsInfo: Object containing the state information for every call established or in establishing phase.
+Structure: dictionary with
+  - key: userid (remote user for which connection is established)
+  - value: object {
+    -peerConnection: PeerConnection object,
+    - callState: state of call (IDLE, ESTABLISHING, etc.),
+    - callId: call's id, initialized during the send Invite message phase,
+    - currentTransactionId: id for current transaction,
+    - lastInviteMessage: last sent / received invite message. This information is to be used in hang up procedures,
+    - remoteStream: remote stream
+    }
+
+
+
+
+Example data:
+-------------
+
+Registered users:
+{ test1: 
+   { user1: 
+      { groupid: 'test1',
+        userid: 'user1',
+        name: 'User+Name1',
+        currentCall: [],
+        registerTime: 1410194856857 },
+     user2: 
+      { groupid: 'test1',
+        userid: 'user2',
+        name: 'User+Name2',
+        currentCall: [],
+        registerTime: 1410194860770 } } }
+--------------------------------------------
+Registered signalling sockets:
+{ Aj8ql71yBZ5_xoBvKbsK: { groupid: 'test1', userid: 'user1' },
+  Zr5qGjZB0vlnXnidKbsL: { groupid: 'test1', userid: 'user2' } }
+--------------------------------------------
+User sockets:
+{ test1: 
+   { user1: 
+      { id: 'Aj8ql71yBZ5_xoBvKbsK',
+        namespace: [Object],
+        manager: [Object],
+        disconnected: false,
+        ackPackets: 0,
+        acks: {},
+        flags: [Object],
+        readable: true,
+        store: [Object],
+        _events: [Object] },
+     user2: 
+      { id: 'Zr5qGjZB0vlnXnidKbsL',
+        namespace: [Object],
+        manager: [Object],
+        disconnected: false,
+        ackPackets: 0,
+        acks: {},
+        flags: [Object],
+        readable: true,
+        store: [Object],
+        _events: [Object] } } }
+--------------------------------------------
+Session states:
+{ 'user2-user1-1410194861415-5271966614': 
+   { callId: 'user2-user1-1410194861415-5271966614',
+     groupid: 'test1',
+     transactionId: 'invite-1410194861417-9214555573',
+     callParticipants: [ 'user2', 'user1' ],
+     state: 'established' } }
+
+
+
+
+

@@ -1,0 +1,206 @@
+			<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+			<html>
+			<head>
+			  <meta charset="ISO-8859-1">
+			  <title>HI-Iberia WebRTC-Multi ver0.1</title>
+			<!-- <script src="js/adapter.js"></script>
+			<script src="/socket.io/socket.io.js"></script>
+			<link rel="stylesheet" href="css/normalize.css">
+			<link rel="stylesheet" href="css/main.css">
+			-->
+			  <script src="/js/adapter.js"></script>
+			  <script src="/js/RecordRTC.js"></script>
+			  <script src="/js/main.js"></script>
+			  
+			  <script src="/socket.io/socket.io.js"></script>
+			  <link rel="stylesheet" href="/css/normalize.css">
+			  <link rel="stylesheet" href="/css/main.css">
+			<!-- jQuery library -->
+			<!-- <script src="/js/jQuery/jquery-2.0.3.min.js"></script> --><!-- <script src="/js/jQuery/jquery-2.0.3.js"></script> --><!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> --><!-- <script src="/js/jQuery/jquery-1.10.2.min.js"></script> --><!--
+			<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+			<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+			-->
+			  <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+			  <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+			  
+			  <script src="/js/resize_video_webrtc.js"></script>
+			  
+			</head>
+			<body>
+				<div class="top"><div class="logos"><img id="logoBeta" src="/img/beta.png"><!--<img id="logoSeaplace" src="/img/logoSeaplace.png">--><img id="logoHI" src="/img/logoHi.png"></div></div>
+				<div class="up"></div>
+				<div class="centre" style="width:100%">
+					<div id="divToolBar" class="menu" style="margin: 0 auto; width:940px; position:absolute; left:0px; right:0px; top:100px; height:40px">
+						<button id="buttonOpenChat" title="Open Chat" style="position: absolute; left:0px; top:0px; margin-right: 5px; width:100px"><span class="icon-open-chat button-icon"></span>Chat</button><br>
+						<button id="sendFile" title="Send File" style="position: absolute; left:105px; top:0px; width:100px"><span class="icon-send-file button-icon"></span>File</button><br>
+						<button id="buttonShareDesktop" title="Share Desktop" style="position: absolute; left:210px; top:0px; width:100px"><span class="icon-share-desktop button-icon"></span>Desktop</button><br>
+						<button id="buttonAutoFocus" title="Auto Focus" style="position: absolute; left:315px; top:0px; width:100px"><span class="icon-auto-focus button-icon"></span>Focus</button><br>
+						<button id="buttonMute" title="Mute" style="position: absolute; left:420px; top:0px; width:100px"><span class="icon-mute button-icon"></span>Mute</button><br>
+						<button id="buttonVolumeControl" title="Volume Control" style="position: absolute; left:525px; top:0px; width:100px"><span class="icon-volume-control button-icon"></span>Volume</button><br>
+						<button id="buttonPause" title="Pause" style="position: absolute; left:630px; top:0px; width:100px"><span class="icon-pause button-icon"></span>Pause</button><br>
+						<button id="buttonRecord" title="Record" style="position: absolute; left:735px; top:0px; width:100px"><span class="icon-record button-icon"></span>Record</button><br>
+						<button id="buttonQuit" title="Quit" style="position: absolute; left:840px; top:0px; width:100px"><span class="icon-quit button-icon"></span>Quit</button><br>
+					</div>
+			
+				<div class="mainPanel"  style="margin: 0 auto; width:885px; position:absolute; top:150px; left:0px; right:0px">
+					<div id="divRemoteViewsParent" class="divRemoteViewsParent">
+						<h3>Remote views</h3>
+						<div id="divRemoteViews" class="divRemoteViews">
+						<!--
+				        <div id="divRemoteVideo1" class="divRemoteVideoSmall">
+			    	        <video id="remoteVideo1" class="remoteVideoSmall" autoplay="autoplay"></video>
+			    	        <button id="buttonFocusRemoteVideo1" class="buttonFocusRemoteVideo">Focus</button>
+			            </div>
+				        <div id="divRemoteVideo2" class="divRemoteVideoSmall">
+			    	        <video id="remoteVideo2" class="remoteVideoSmall" autoplay="autoplay"></video>
+			    	        <button id="buttonFocusRemoteVideo2" class="buttonFocusRemoteVideo">Focus</button>
+			            </div>
+			            -->
+			            </div>
+					</div>
+					<div id="divVideoPanel" style="position:absolute; top:0px; bottom:0px; left:220px; right:0px">
+						<div id="divTitleVideoPanel">
+							<h3 id="titleRemoteVideos">Main remote video</h3>
+							<div id="divMainVideoInfo" class="divMainVideoInfo"></div>
+							<button id="buttonResize" title="Resize"><span class="icon-resizeOut button-icon"></span>Resize</button>
+						</div>
+				        <div id="divRemoteVideo" class="divRemoteVideo">
+			    	        <video id="remoteVideo" class="remoteVideo" autoplay="autoplay"></video>
+			            </div>
+			            <div id="divLocalVideo">
+								<video id="localVideo" muted="true" autoplay="autoplay"	poster="/img/RTC_background_mirror.png"></video>
+						</div>
+						<div id="divLocalScreenVideoSmall" class="divLocalScreenVideoSmall">
+							<video id="localScreenVideoSmall" class="localScreenVideoSmall" autoplay="autoplay"></video>
+						</div>
+				        <div id="divLocalVideoSmall" class="divLocalVideoSmall">
+			    	        <video id="localVideoSmall" muted="true" class="localVideoSmall" autoplay="autoplay"></video>
+			            </div>
+			            
+					</div>
+				</div>	</div>
+				<!--<div class="down" style="position:absolute; top:710x; bottom:0px; left:0px; right:0px"></div>-->
+				
+				<script>
+					$(document).ready(
+							function() {
+								// Document elements variable initialization
+								localVideo = document.getElementById('localVideo');
+			                    divLocalVideo = document.getElementById('divLocalVideo');
+								remoteVideo = document.getElementById('remoteVideo');
+			                    divRemoteVideo = document.getElementById('divRemoteVideo');
+								localVideoSmall = document.getElementById('localVideoSmall');
+			                    divLocalVideoSmall = document.getElementById('divLocalVideoSmall');
+			                    
+			                    divLocalScreenStream = document.getElementById('divLocalScreenVideoSmall');
+			                    localScreenVideoSmall = document.getElementById('localScreenVideoSmall');
+			                    
+			                    divRemoteViews = document.getElementById('divRemoteViews');
+			                    divMainVideoInfo = document.getElementById('divMainVideoInfo');
+
+			                    // Open Chat button
+			                    buttonOpenChat = document.getElementById('buttonOpenChat');
+			                    // Send File button
+			                    buttonSendFile = document.getElementById('buttonSendFile');
+			                    // Share Desktop button
+			                    buttonShareDesktop = document.getElementById('buttonShareDesktop');
+			                    // Auto Focus button
+			                    buttonAutoFocus = document.getElementById('buttonAutoFocus');
+			                    // Mute button
+			                    buttonMute = document.getElementById('buttonMute');
+			                    // Volume Control button
+			                    buttonVolumeControl = document.getElementById('buttonVolumeControl');
+			                    // Pause button
+			                    buttonPause = document.getElementById('buttonPause');
+			                    // Record button
+			                    buttonRecord = document.getElementById('buttonRecord');
+			                    // Quit button
+			                    buttonQuit = document.getElementById('buttonQuit');
+								
+								localVideo.style.opacity = 1;
+								remoteVideo.style.opacity = 0;
+								localVideoSmall.style.opacity = 0;
+
+								
+								
+						/*		
+								// Register process
+								$("#buttonRegister").click(registerUser);
+
+								// Deregister process
+								$("#buttonDeregister").click(deregisterUser);
+								
+								// Hang up call
+								$("#buttonHangUp").click(hangUpCallCurrentCall);
+								
+								// Record call
+								$("#buttonStartRecord").click(startRecordCurrentCall);
+			                    $("#buttonStopRecord").click(stopRecordCurrentCall);
+			                   
+			                   	// Share Desktop
+			                   	$("#buttonStartSharingDesktop").click(startSharingDesktop);
+			                   	$("#buttonStopSharingDesktop").click(stopSharingDesktop);
+			              
+			              */
+			              		// Open Chat
+								$("#buttonOpenChat").click(openChat);
+
+			              		// Send File
+								$("#buttonSendFile").click(sendFile);
+
+			              		// Share Desktop
+								$("#buttonShareDesktop").attr('onclick','shareDesktop()');
+
+			              		// Auto Focus
+								$("#buttonAutoFocus").click(autoFocus);
+
+			              		// Mute
+								$("#buttonMute").click(mute);
+			                   	
+			                   	// Volume Control
+								$("#buttonVolumeControl").click(volumeControl);
+			                   	
+			                   	// Pause
+								$("#buttonPause").click(pause);
+			                   	
+			              		// Record
+								$("#buttonRecord").click(record);
+
+			              		// Quit
+								$("#buttonQuit").click(quit);
+			                   	
+			                   	
+			                   	var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+						var isiDevice = /ipad|iphone|ipod/i.test(navigator.userAgent.toLowerCase());
+						var isAndroid = /android/i.test(navigator.userAgent.toLowerCase());
+								if(is_firefox || isiDevice || isAndroid){
+									document.getElementById('buttonShareDesktop').setAttribute("disabled","disabled");
+							   	}
+							});
+
+					// 1. Obtain local media
+
+					// 2. Setup a connection between the browser and the peer
+
+					// 3. Attach media and data channels to the connection
+
+					// 4. Exchange session descriptors
+
+					//--------------------------------------------------------------------
+
+
+					// 1. Register user
+					registerUser();
+					
+					// 2. Get all users already registered in current group.
+			//		getRegisteredUsersAndEstablishConnections();
+					
+					// 3. Establish connections.
+
+
+				</script>
+				
+				
+				
+			</body>
+			</html>

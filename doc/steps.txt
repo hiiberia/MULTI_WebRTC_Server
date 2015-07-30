@@ -1,0 +1,10 @@
+
+
+1. Register user
+
+2. Get currently registered users, via the getRegisteredUsers operation. As a response, an object
+   containing the already registered users information is returned by signalling server. When response
+   is received, a connection is established to every user. This is done in the following steps:
+     a. Create a peerConnection per user
+   
+TODO

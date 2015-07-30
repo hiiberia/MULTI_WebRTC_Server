@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>UCT WebRTC ver0.1</title>
+
+<!-- 
+<script src="js/adapter.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/main.css">
+-->
+
+<script src="/js/adapter.js"></script>
+<script src="/js/RecordRTC.js"></script>
+<script src="/js/main.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/main.css">
+
+
+<!--  jQuery library -->
+<!-- <script src="/js/jQuery/jquery-2.0.3.min.js"></script> -->
+<!-- <script src="/js/jQuery/jquery-2.0.3.js"></script> -->
+<!--  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> -->
+<!-- <script src="/js/jQuery/jquery-1.10.2.min.js"></script> -->
+<!--
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+-->
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+</head>
+
+
+<body>
+<div class="logos"><img id="logoRTC" src="/img/WebRTClogo.png"><img id="logoHI" src="/img/logoHi.png"></div>
+<div class="up"></div>
+	<div id="rootPanel">
+		<!-- Left panel containing favorite contacts and agenda -->
+		<div id="leftPanel">
+			<div id="divLeftPanelTitle" class="divTitle">
+				<h3>Contacts</h3>
+			</div>
+			<div id="divPreferedContactsList" class="contactsList">
+				<h4 id="divPreferedContactsListTitle"><span class="icon-fav contacts-icon"></span>Favorites<span class="dropdown icon-down"></span></h4>
+				<div id="favoriteContactsListContainer" class="contactsListContainer">
+
+					<li id="contact_173946834" class="activeContact" userid="173946834">
+						<span class="icon-contact-fav"></span>673946834: Paul	
+					</li>
+					<li id="contact_985689563" class="activeContact" userid="985689563">
+						<span class="icon-contact-fav"></span>685689563: Michael
+					</li>
+		
+<!-- 
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567891" style="background-color: #40f000; top: 10px">1234567891
+						Qwerty Poiuy</div>
+-->
+				</div>
+			</div>
+
+			<div id="divAllContactsList" class="contactsList">
+				<h4 id="divAllContactsListTitle"><span class="icon-allcontacts contacts-icon"></span>All Contacts<span class="dropdown icon-down"></span></h4>
+				<div id="allContactsListContainer" class="contactsListContainer">
+					
+<!-- 
+					<div id="1234567890" class="active">1234567890 Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+					<div id="1234567890" style="background-color: #40f000; top: 10px">1234567890
+						Asfdsf Asdfas</div>
+					<div class="horizontalSeparator"></div>
+-->					
+				</div>
+			</div>
+		</div>
+
+		<!-- Main panel containing audio and video components -->
+		<div id="mainPanel">
+			<div id="divMainPanelTitle" class="divTitle">
+				<h3>Audio/Video</h3>
+			</div>
+			<div id="divVideoPanel">
+				<div id="divLocalVideo">
+					<video id="localVideo" muted="true" autoplay="autoplay"
+						poster="/img/RTC_background.png"></video>
+				</div>
+                <div id="divRemoteVideo">
+                    <video id="remoteVideo" autoplay="autoplay"></video>
+                </div>
+				<div id="divLocalVideoSmall" style="opacity: 0">
+					<video id="localVideoSmall" muted="true" autoplay="autoplay"></video>
+				</div>
+			</div>
+		</div>
+			<div id="divMainPanelButtons">
+				<button id="buttonRegister"><span class="icon-register button-icon"></span>Register</button><br>
+				<button id="buttonDeregister" disabled="disabled"><span class="icon-unregister button-icon"></span>Unregister</button><br>
+                <button id="buttonStartRecord" disabled="disabled"><span class="icon-record button-icon"></span>Start Record</button><br>
+                <button id="buttonStopRecord" disabled="disabled"><span class="icon-stop button-icon"></span>Stop Record</button><br>
+                <button id="buttonHangUp" disabled="disabled"><span class="icon-hangup button-icon"></span>Hang up</button><br>
+				<button id="buttonStartSharingDesktop"><span class="icon-start-sharing-desktop button-icon"></span>Share Desktop</button><br>
+				<button id="buttonStopSharingDesktop" disabled="disabled"><span class="icon-stop-sharing-desktop button-icon"></span>Stop Sharing</button>
+			</div>
+	</div>
+	<div class="down"></div>
+
+	<script>
+		$(document).ready(
+				function() {
+
+					// BUTTONS
+					$('#divPreferedContactsListTitle').click(function(){
+						if($('#divPreferedContactsListTitle .dropdown').hasClass('icon-down')){
+							$('#divPreferedContactsListTitle .dropdown').removeClass('icon-down').addClass('icon-right');
+							$('#favoriteContactsListContainer').slideUp(400);
+						}else{
+							$('#divPreferedContactsListTitle .dropdown').removeClass('icon-right').addClass('icon-down');
+							$('#favoriteContactsListContainer').slideDown(400);
+						}
+					});
+					$('#divAllContactsListTitle').click(function(){
+						if($('#divAllContactsListTitle .dropdown').hasClass('icon-down')){
+							$('#divAllContactsListTitle .dropdown').removeClass('icon-down').addClass('icon-right');
+							$('#allContactsListContainer').slideUp(400);
+						}else{
+							$('#divAllContactsListTitle .dropdown').removeClass('icon-right').addClass('icon-down');
+							$('#allContactsListContainer').slideDown(400);
+						}
+					});
+					
+					
+					// Document elements variable initialization
+					localVideo = document.getElementById('localVideo');
+                    divLocalVideo = document.getElementById('divLocalVideo');
+					remoteVideo = document.getElementById('remoteVideo');
+                    divRemoteVideo = document.getElementById('divRemoteVideo');
+					localVideoSmall = document.getElementById('localVideoSmall');
+                    divLocalVideoSmall = document.getElementById('divLocalVideoSmall');
+                    // Hang up button
+                    buttonHangUp = document.getElementById('buttonHangUp');
+                    // Record buttons
+                    buttonStartRecord = document.getElementById('buttonStartRecord');
+                    buttonStopRecord = document.getElementById('buttonStopRecord');
+                    // Share Desktop button
+                    buttonShareDesktop = document.getElementById('buttonShareDesktop');
+					
+					localVideo.style.opacity = 1;
+					remoteVideo.style.opacity = 0;
+					localVideoSmall.style.opacity = 0;
+					
+                    // allContactsContainer = document.getElementById('allContactsListContainer');
+                    allContactsContainer = $('#allContactsListContainer');
+
+					// Register process
+					$("#buttonRegister").click(registerUser);
+
+					// Deregister process
+					$("#buttonDeregister").click(deregisterUser);
+					
+					// Hang up call
+					$("#buttonHangUp").click(hangUpCallCurrentCall);
+					
+					// Record call
+					$("#buttonStartRecord").click(startRecordCurrentCall);
+                    $("#buttonStopRecord").click(stopRecordCurrentCall);
+                   
+                   	// Share Desktop
+                   	$("#buttonStartSharingDesktop").click(startSharingDesktop);
+                   	$("#buttonStopSharingDesktop").click(stopSharingDesktop);
+                   	
+				});
+
+		// 1. Obtain local media
+
+		// 2. Setup a connection between the browser and the peer
+
+		// 3. Attach media and data channels to the connection
+
+		// 4. Exchange session descriptors
+
+		//--------------------------------------------------------------------
+
+
+
+	</script>
+
+</body>
+</html>

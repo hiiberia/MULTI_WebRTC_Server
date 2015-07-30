@@ -1,0 +1,6 @@
+
+Join to group:
+	http://192.168.26.149:1337/webrtc_multi/test1?userid=user1&name=User+Name
+
+Get currently registered users information (for all groups):
+	http://192.168.26.149:1337/users/list
